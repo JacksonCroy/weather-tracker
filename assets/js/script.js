@@ -3,7 +3,8 @@ $(document).ready(function() {
     $("#search-btn").click(function() {
         event.preventDefault();
         $(".weathercard").show();
-        return getWeather(), getForcast();
+        return getWeather(), getForcast(), saveData(), appendData();
+
 
 
 
@@ -11,6 +12,18 @@ $(document).ready(function() {
 
 
 });
+
+function saveData() {
+    let savedCity = $("#search-value").val();
+    localStorage.setItem("City", savedCity);
+
+};
+
+function appendData() {
+    let showData = localStorage.getItem("City");
+    $("#past-cities").prepend("<li>" + showData + "</li>")
+    console.log(showData)
+};
 
 function getWeather() {
     var cityValue = $("#search-value").val();
