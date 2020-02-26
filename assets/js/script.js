@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    appendData();
 
     $("#search-btn").click(function() {
         event.preventDefault();
@@ -20,9 +21,14 @@ function saveData() {
 };
 
 function appendData() {
+
+
     let showData = localStorage.getItem("City");
     $("#past-cities").prepend("<li>" + showData + "</li>")
     console.log(showData)
+
+
+
 };
 
 function getWeather() {
@@ -40,7 +46,7 @@ function getWeather() {
                 var lon = data.coord.lon
                 console.log("lat: ", lat);
                 console.log("lon: ", lon);
-
+                getUv(lat, lon);
                 $("#searched-weather").html(widget);
 
                 $("#city").val('');
@@ -49,7 +55,7 @@ function getWeather() {
 
 
 
-                getUv(lat, lon);
+
 
             }
 
@@ -60,24 +66,27 @@ function getWeather() {
 };
 
 function getUv(lat, lon) {
+    console.log("get uv running");
 
     $.ajax({
 
-        url: "https://api.openweathermap.org/data/2/5/uvi?&appid=9703d88016d9e7f973268cd361810f57lat=" + lat + "&lon=" + lon,
-        // url: "https://api.openweathermap.org/data/2.5/uvi?&appid=9703d88016d9e7f973268cd361810f57lat=" + lat + "&lon=" + lon,
+        url: "https://api.openweathermap.org/data/2.5/uvi?&appid=c10bb3bd22f90d636baa008b1529ee25&lat=" + lat + "&lon=" + lon,
         type: "GET",
         dataType: "json",
         success: function(response) {
 
             console.log(response)
+            console.log(response.value)
 
-
+            var uV = response.value
+            $("#searched-weather").append("<h3>" + "Uv Index: " + uV + "</h3>")
 
 
         }
 
     });
 };
+
 
 
 
